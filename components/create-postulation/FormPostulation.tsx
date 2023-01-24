@@ -97,11 +97,6 @@ export const FormPostulation = (): any => {
 	};
 
 	return (
-
-
-
-
-		
 		<section className="bg-white dark:bg-gray-900">
 			<div className="mx-auto max-w-2xl py-8 px-4 lg:py-16">
 				<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
