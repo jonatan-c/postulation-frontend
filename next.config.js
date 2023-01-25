@@ -2,7 +2,10 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		domains: ['probando-upload.s3.sa-east-1.amazonaws.com'],
+		domains: [
+			'probando-upload.s3.sa-east-1.amazonaws.com',
+			'images.unsplash.com',
+		],
 		// remotePatterns: [
 		//   {
 		//     protocol: 'https:',

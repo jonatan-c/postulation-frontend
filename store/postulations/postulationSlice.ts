@@ -36,6 +36,7 @@ const initialState: IResPostulations = {
 		createdAt: '',
 		updatedAt: '',
 		images: [],
+		description: '',
 	},
 	lastId: 0,
 };
@@ -89,7 +90,7 @@ export const postulationSlice = createSlice({
 				...state,
 				selected: {
 					...state.selected,
-					description: action.payload.description,
+					// description: action.payload.description,
 					images: action.payload.images,
 				},
 			};
@@ -106,6 +107,7 @@ export const postulationSlice = createSlice({
 					createdAt: '',
 					updatedAt: '',
 					images: [],
+					description: '',
 				},
 			};
 		},

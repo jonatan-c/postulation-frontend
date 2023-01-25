@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import {
 	createImageToPostulation,
 	createPostulation,
 	editPostulation,
 } from '@/store/postulations/postulationSlice';
+import Link from 'next/link';
 import React, { FormEvent, useState, useEffect } from 'react';
 
 interface IFormPostulationCreate {
@@ -38,7 +40,6 @@ export const FormPostulation = (): any => {
 		setValue(e);
 		setFormValue({
 			...formValue,
-			description: e,
 		});
 	};
 
@@ -92,8 +93,9 @@ export const FormPostulation = (): any => {
 		formdata.append('file', file, 'rn-6.png');
 		formdata.append('fileName', 'jonatan');
 		formdata.append('descriptionFile', 'hola');
+		console.log(formdata);
 
-		dispatch(createImageToPostulation(lastId, formdata));
+		dispatch(createImageToPostulation(selected.id, formdata));
 	};
 
 	return (
@@ -197,14 +199,18 @@ export const FormPostulation = (): any => {
 							>
 								Description
 							</label>
-							{/* <textarea
-                id="description"
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Your description here"
-              ></textarea> */}
-							<div className="add">
-								<div className="content">
-									{/* <div className="editorContainer text-black">
+							<textarea
+								id="description"
+								className="block h-[200px] w-full justify-start rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+								placeholder="Your description here"
+								name="description"
+								value={description}
+								// defaultValue={description}
+								onChange={onInputChange}
+							/>
+							{/* <div className="add">
+								<div className="content"> */}
+							{/* <div className="editorContainer text-black">
                       <ReactQuill
                         className="editor"
                         theme="snow"
@@ -216,16 +222,20 @@ export const FormPostulation = (): any => {
                         onChange={onInputchangeDescription}
                       />
                     </div> */}
-								</div>
-							</div>
+							{/* </div> */}
+							{/* </div> */}
 						</div>
 					</div>
+					{/* <Link 
+					href={"/dashboard/postulations"}
+					> */}
 					<button
 						type="submit"
 						className="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6"
 					>
 						{selected.id ? 'Update Postulation' : 'Add Postulation'}
 					</button>
+					{/* </Link> */}
 				</form>
 			</div>
 			{/* <form onSubmit={handleSubmitImage}> */}

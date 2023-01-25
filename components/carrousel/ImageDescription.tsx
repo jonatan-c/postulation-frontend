@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { useAppSelector } from '@/hooks/redux';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-const UserPage = (): any => {
+const ImageDescription = (): any => {
+	const { selected } = useAppSelector((state) => state.postulation);
+
 	const router = useRouter();
 
 	useEffect(() => {
@@ -13,24 +17,7 @@ const UserPage = (): any => {
 		}
 	}, []);
 
-	const slides = [
-		{
-			url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80',
-		},
-		{
-			url: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80',
-		},
-		{
-			url: 'https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80',
-		},
-
-		{
-			url: 'https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2253&q=80',
-		},
-		{
-			url: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2671&q=80',
-		},
-	];
+	const slides = selected.images;
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -53,10 +40,19 @@ const UserPage = (): any => {
 	return (
 		<>
 			<div className="group relative m-auto h-[780px] w-full max-w-[1400px] py-16 px-4">
-				<div
-					style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
-					className="h-full w-full rounded-2xl bg-cover bg-center duration-500"
-				></div>
+				{slides[currentIndex]?.fileUrl && (
+					<Image
+						src={slides[currentIndex]?.fileUrl}
+						alt="image"
+						width={1400}
+						height={780}
+						className="h-full w-full rounded-2xl bg-cover bg-center duration-500"
+					/>
+				)}
+				{/* Top Botton Delete Image
+				<div className="absolute top-[10%] right-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
+					<button onClick={prevSlide}>X</button>
+				</div> */}
 				{/* Left Arrow */}
 				<div className="absolute top-[50%] left-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
 					<button onClick={prevSlide}>IZQ</button>
@@ -72,25 +68,23 @@ const UserPage = (): any => {
 							onClick={() => {
 								goToSlide(slideIndex);
 							}}
-							className="cursor-pointer text-2xl"
+							className="cursor-pointer text-2xl "
 						>
 							{/* <RxDotFilled /> */}
-							<p>O</p>
+							<p
+								className={`${
+									slideIndex === currentIndex ? 'text-red-500' : 'text-black'
+								} `}
+							>
+								{' '}
+								O{' '}
+							</p>
 						</div>
 					))}
 				</div>
-			</div>
-
-			<div>
-				<Image
-					src={slides[currentIndex].url}
-					alt="Picture of the author"
-					width={500}
-					height={500}
-				/>
 			</div>
 		</>
 	);
 };
 
-export default UserPage;
+export default ImageDescription;

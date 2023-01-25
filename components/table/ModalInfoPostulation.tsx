@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import UserPage from '@/pages/dashboard/users';
 import {
-	cleanSelected,
 	cleanSelectedPostulation,
 	deleteImageToPostulation,
 } from '@/store/postulations/postulationSlice';
 import Image from 'next/image';
 import React, { useEffect } from 'react';
+import ImageDescription from '../carrousel/ImageDescription';
 
 const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 	const { selected } = useAppSelector((state) => state.postulation);
@@ -37,7 +38,7 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 					zIndex: 100,
 				}}
 				id="invite"
-				className="top-[calc((100vh-800px)/2)] left-[calc((100vw-700px)/2)]   z-20 flex    h-[800px] w-[700px] flex-col rounded-[10px] border    border-gray-300   bg-white text-black "
+				className="top-[calc((100vh-900px)/2)] left-[calc((100vw-1000px)/2)]   z-20 flex    h-[900px] w-[1000px] flex-col rounded-[10px] border    border-gray-300   bg-white text-black "
 			>
 				{/* HEADER */}
 				<div className="border-neutro-300 flex h-[35px] w-full  flex-row content-center items-center  justify-between border-b  py-[25px] px-[19px]">
@@ -52,10 +53,21 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 					></div>
 				</div>
 				{/* BODY */}
-				<div className="flex h-full  w-full  content-center   items-center p-[10px] md:flex md:flex-col md:p-5 md:pb-0  ">
-					<p className="text-sm font-normal leading-[21px] md:text-base "> </p>
-					<div className="flex h-full w-full flex-col items-center justify-center  overflow-y-scroll">
-						{selected?.images.map((image: any, index: number) => {
+				<div className="flex h-full  w-full        p-[10px] md:flex md:flex-col md:p-5 md:pb-0  ">
+					<p className="text-sm font-normal leading-[21px] md:text-base ">
+						Position: Frontend
+					</p>
+					<p className="text-sm font-normal leading-[21px] md:text-base ">
+						Date Send [DD-MM-AA]:
+						{selected.dateSend}
+					</p>
+					<p className="text-sm font-normal leading-[21px] md:text-base ">
+						Feedback:
+						{selected.feedback}
+					</p>
+					Images descriptions:
+					<div className="scroll-column-history flex h-[500px] w-full flex-col items-center justify-center overflow-y-scroll rounded  border border-black">
+						{/* {selected?.images.map((image: any, index: number) => {
 							return (
 								<div key={image.id} className="m-3">
 									<button
@@ -75,13 +87,15 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 									/>
 								</div>
 							);
-						})}
+						})} */}
+						{selected.images.length === 0 ? (
+							<p>No images</p>
+						) : (
+							<ImageDescription />
+						)}
 					</div>
+					<p>{selected.description}</p>
 				</div>
-
-				<p>{selected.description}</p>
-
-				<p>{getText(selected.description)}</p>
 
 				{/* <Image
           src={selected?.images[0]?.fileUrl}
@@ -99,7 +113,7 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 						}}
 						className="bg-bluePrimary-600 mr-3 h-[37px] w-[96px] rounded-lg text-sm font-medium leading-[21px] text-black md:h-[45px] md:w-[117px] "
 					>
-						Deactivate
+						Last update
 					</button>
 				</div>
 			</div>
