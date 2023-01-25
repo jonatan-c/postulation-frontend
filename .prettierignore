@@ -9,3 +9,5 @@ tailwind.config.js
 tsconfig.json
 yarn.lock
 .husky
+
+next-env.d.ts

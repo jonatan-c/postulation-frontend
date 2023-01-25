@@ -94,6 +94,21 @@ export const postulationSlice = createSlice({
 				},
 			};
 		},
+		cleanSelected: (state) => {
+			return {
+				...state,
+				selected: {
+					id: 0,
+					dateSend: '',
+					feedback: false,
+					dateFeedback: '',
+					company: '',
+					createdAt: '',
+					updatedAt: '',
+					images: [],
+				},
+			};
+		},
 	},
 });
 
@@ -241,12 +256,19 @@ export const editPostulation = (id: any, data: any): AppThunk => {
 	};
 };
 
+export const cleanSelectedPostulation = (): any => {
+	return (dispatch: any) => {
+		dispatch(cleanSelected());
+	};
+};
+
 export const {
 	getAll,
 	createPostulationState,
 	getOneById,
 	deleteIamge,
 	editPostulationByID,
+	cleanSelected,
 } = postulationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

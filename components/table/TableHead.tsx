@@ -49,23 +49,26 @@ export const TableHead = (): any => {
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
 					<thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-						<tr>
-							<th scope="col" className="px-6 py-3">
+						<tr className="bg-red-400">
+							<th scope="col" className="px-6 py-3  ">
 								Name Company
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-6 py-3 ">
 								Position
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="w-[50px] px-6  py-3">
 								Date postulation [DD/MM/YYYY]
 							</th>
-							<th scope="col" className="px-6 py-3">
-								Status postulation Response?
+							<th
+								scope="col"
+								className="justify-center px-6   py-3 text-center "
+							>
+								Status
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="justify-center px-6 py-3 text-center">
 								+ Info
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="justify-center px-6 py-3 text-center">
 								- Edit
 							</th>
 						</tr>
@@ -118,7 +121,7 @@ export const TableHead = (): any => {
 								<td className="px-6 py-4">
 									{moment(postulation?.dateSend).format('DD/MM/YYYY')}
 								</td>
-								<td className="px-6 py-4">
+								<td className="flex justify-center px-6 py-4">
 									<div className="flex items-center">
 										<div
 											className={` h-2.5 w-2.5 rounded-full ${
@@ -128,7 +131,7 @@ export const TableHead = (): any => {
 										{postulation?.feedback}
 									</div>
 								</td>
-								<td className="px-6 py-4">
+								<td className="justify-center px-6 py-4 text-center">
 									<button
 										onClick={() => {
 											setOpenDeactivateModal(true);
@@ -140,7 +143,7 @@ export const TableHead = (): any => {
 										+
 									</button>
 								</td>
-								<td className="px-6 py-4">
+								<td className="justify-center px-6 py-4 text-center">
 									<button
 										onClick={() => {
 											// setOpenDeactivateModal(true);

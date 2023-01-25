@@ -82,7 +82,9 @@ export const Sidebar = (): any => {
 		},
 		{
 			id: 4,
-			name: `${selected.id ? 'Edit' : 'Create'} Postulation`,
+			name: `${
+				router.pathname.split('/').pop() === 'postulations' ? 'Create' : 'Edit'
+			} Postulation`,
 			href: '/dashboard/create-postulation',
 			icon: (
 				<svg

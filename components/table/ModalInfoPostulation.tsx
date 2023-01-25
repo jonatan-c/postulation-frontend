@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { deleteImageToPostulation } from '@/store/postulations/postulationSlice';
+import {
+	cleanSelected,
+	cleanSelectedPostulation,
+	deleteImageToPostulation,
+} from '@/store/postulations/postulationSlice';
 import Image from 'next/image';
 import React, { useEffect } from 'react';
 
@@ -101,7 +105,10 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 			</div>
 
 			<div
-				onClick={() => setOpenDeactivateModal(false)}
+				onClick={() => {
+					dispatch(cleanSelectedPostulation());
+					setOpenDeactivateModal(false);
+				}}
 				className="backdrop"
 			></div>
 		</>
