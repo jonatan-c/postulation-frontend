@@ -4,6 +4,8 @@ import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import left from '../../public/icons/previous-outline-svgrepo-com.svg';
+import rigth from '../../public/icons/next-outline-svgrepo-com.svg';
 
 const ImageDescription = (): any => {
 	const { selected } = useAppSelector((state) => state.postulation);
@@ -54,12 +56,16 @@ const ImageDescription = (): any => {
 					<button onClick={prevSlide}>X</button>
 				</div> */}
 				{/* Left Arrow */}
-				<div className="absolute top-[50%] left-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
-					<button onClick={prevSlide}>IZQ</button>
+				<div className="absolute top-[50%] left-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer   p-2 text-2xl text-white group-hover:block">
+					<button onClick={prevSlide}>
+						<Image src={left} alt="left" width={60} height={60} />
+					</button>
 				</div>
 				{/* Right Arrow */}
-				<div className="absolute top-[50%] right-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
-					<button onClick={nextSlide}>DER</button>
+				<div className="absolute top-[50%] right-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer     p-2 text-2xl text-white group-hover:block">
+					<button onClick={nextSlide}>
+						<Image src={rigth} alt="rigth" width={60} height={60} />
+					</button>
 				</div>
 				<div className="top-4 flex justify-center py-2">
 					{slides.map((slide, slideIndex) => (

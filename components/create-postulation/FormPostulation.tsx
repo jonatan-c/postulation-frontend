@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import {
+	cleanSelectedPostulation,
 	createImageToPostulation,
 	createPostulation,
 	editPostulation,
 } from '@/store/postulations/postulationSlice';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { FormEvent, useState, useEffect } from 'react';
 
 interface IFormPostulationCreate {
@@ -28,6 +30,8 @@ export const FormPostulation = (): any => {
 	const { selected } = useAppSelector((state) => state.postulation);
 
 	const dispatch = useAppDispatch();
+
+	const router = useRouter();
 
 	const [formValue, setFormValue] = useState(initialState);
 
@@ -75,9 +79,14 @@ export const FormPostulation = (): any => {
 
 		if (selected.id !== 0) {
 			dispatch(editPostulation(selected.id, formValue));
+			router.push('/dashboard/postulations');
+			// dispatch(cleanSelectedPostulation())
 		} else {
 			dispatch(createPostulation(formValue));
+			router.push('/dashboard/postulations');
+			// dispatch(cleanSelectedPostulation())
 		}
+		dispatch(cleanSelectedPostulation());
 	};
 
 	// ***************************** IMAGE ***************************** //
@@ -226,16 +235,16 @@ export const FormPostulation = (): any => {
 							{/* </div> */}
 						</div>
 					</div>
-					{/* <Link 
-					href={"/dashboard/postulations"}
-					> */}
 					<button
 						type="submit"
 						className="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6"
 					>
+						{/* <Link 
+					href={"/dashboard/postulations"}
+					> */}
 						{selected.id ? 'Update Postulation' : 'Add Postulation'}
+						{/* </Link> */}
 					</button>
-					{/* </Link> */}
 				</form>
 			</div>
 			{/* <form onSubmit={handleSubmitImage}> */}

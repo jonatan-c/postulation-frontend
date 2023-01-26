@@ -4,12 +4,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import Cookies from 'js-cookie';
+
+import { cleanSelectedPostulation } from '@/store/postulations/postulationSlice';
 
 export const Sidebar = (): any => {
 	const { user } = useAppSelector((state) => state.authentication);
 	const { selected } = useAppSelector((state) => state.postulation);
+
+	const dispatch = useAppDispatch();
 
 	const router = useRouter();
 
@@ -83,7 +87,9 @@ export const Sidebar = (): any => {
 		{
 			id: 4,
 			name: `${
-				router.pathname.split('/').pop() === 'postulations' ? 'Create' : 'Edit'
+				router.pathname.split('/').pop() === 'postulations' || selected.id === 0
+					? 'Create'
+					: 'Edit'
 			} Postulation`,
 			href: '/dashboard/create-postulation',
 			icon: (
