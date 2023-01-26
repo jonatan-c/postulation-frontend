@@ -41,12 +41,26 @@ export const authenticationSlice = createSlice({
 				error: null,
 			};
 		},
+		errorRegister: (state, action: PayloadAction<any>) => {
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		},
 		loginUser: (state, action: PayloadAction<any>) => {
 			return {
 				...state,
 				loading: false,
 				error: null,
 				user: action.payload,
+			};
+		},
+		errorLogin: (state, action: PayloadAction<any>) => {
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
 			};
 		},
 		isLoginCheck: (state, action: PayloadAction<any>) => {
@@ -62,55 +76,70 @@ export const authenticationSlice = createSlice({
 
 export const register = (body: any): AppThunk => {
 	return async (dispatch) => {
-		const response = await clientAxios.post('/user', body);
 		try {
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Usuario registrado con exito',
-				showConfirmButton: false,
-				timer: 1500,
-			});
+			const response = await clientAxios.post('/user', body);
+			console.log(response);
+
+			if (response.data.status === 200) {
+				Swal.fire({
+					position: 'center',
+					icon: 'success',
+					title: response.data.message,
+					showConfirmButton: false,
+					timer: 3000,
+				});
+			} else {
+				Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: response.data.error.message,
+					showConfirmButton: false,
+					timer: 3000,
+				});
+			}
 			dispatch(registerUser(body));
-		} catch (error) {
+		} catch (error: any) {
 			Swal.fire({
 				position: 'top-end',
 				icon: 'error',
-				// title: response.data.error,
+				title: error.response.data.message,
 				showConfirmButton: false,
-				timer: 1500,
+				timer: 3000,
 			});
+			dispatch(errorRegister(error as Error));
 		}
 	};
 };
 
 export const login = (body: any): AppThunk => {
 	return async (dispatch) => {
-		const response = await clientAxios.post<IResLogin>('/auth/login', body);
 		try {
+			const response = await clientAxios.post<IResLogin>('/auth/login', body);
+			console.log(response);
+
 			Swal.fire({
 				position: 'center',
 				icon: 'success',
 				title: 'Usuario logueado con exito',
 				showConfirmButton: false,
-				timer: 1500,
+				timer: 3000,
 			});
 			dispatch(loginUser(response.data.data.user.name));
 			// localStorage.setItem('token', response.data.data.accessToken)
 			Cookies.set('token', response.data.data.accessToken);
 
 			// cookies
-		} catch (error) {
-			// dispatch(fetchTodosError(error as Error));
+		} catch (error: any) {
 			console.log(error);
 
 			Swal.fire({
-				position: 'center',
+				position: 'top-end',
 				icon: 'error',
-
+				title: error.response.data.message,
 				showConfirmButton: false,
-				timer: 1500,
+				timer: 3000,
 			});
+			dispatch(errorLogin(error.response.data.message as Error));
 		}
 	};
 };
@@ -140,8 +169,13 @@ export const logout = (): AppThunk => {
 	};
 };
 
-export const { registerUser, isLoginCheck, loginUser } =
-	authenticationSlice.actions;
+export const {
+	registerUser,
+	isLoginCheck,
+	loginUser,
+	errorRegister,
+	errorLogin,
+} = authenticationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState): any => state.authentication;
