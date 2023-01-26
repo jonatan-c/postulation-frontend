@@ -1,41 +1,35 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useAppDispatch } from '@/hooks/redux';
 import { login } from '@/store/authentication/authenticationSlice';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FormEvent, useState } from 'react';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schema } from './schema.login';
 
 interface IFormLogin {
 	email: string;
 	password: string;
 }
 
-const initialState: IFormLogin = {
-	email: '',
-	password: '',
-};
-
 export const Login = (): any => {
 	const dispatch = useAppDispatch();
-
 	const router = useRouter();
 
-	const [formValue, setFormValue] = useState(initialState);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<IFormLogin>({
+		resolver: yupResolver(schema),
+	});
 
-	const { password, email } = formValue;
-
-	const onInputChange = (e: any): any => {
-		setFormValue({
-			...formValue,
-			[e.target.name]: e.target.value,
-		});
-	};
-
-	const handleSubmit = (e: FormEvent<HTMLFormElement>): any => {
-		e.preventDefault();
-
-		dispatch(login(formValue));
-		// eslint-disable-next-line @typescript-eslint/no-floating-promises
+	const onSubmitHandler: SubmitHandler<IFormLogin> = (data: any): any => {
+		dispatch(login(data));
 		router.push('/dashboard/home');
+		reset();
 	};
 
 	return (
@@ -46,7 +40,10 @@ export const Login = (): any => {
 						<h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
 							Sign in to your account
 						</h1>
-						<form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+						<form
+							className="space-y-4 md:space-y-6"
+							onSubmit={handleSubmit(onSubmitHandler)}
+						>
 							<div>
 								<label
 									htmlFor="email"
@@ -56,13 +53,12 @@ export const Login = (): any => {
 								</label>
 								<input
 									type="email"
-									name="email"
-									value={email}
-									onChange={onInputChange}
+									{...register('email')}
 									id="email"
 									className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
 									placeholder="name@company.com"
 								/>
+								<p>{errors.email?.message}</p>
 							</div>
 							<div>
 								<label
@@ -73,14 +69,13 @@ export const Login = (): any => {
 								</label>
 								<input
 									type="password"
-									name="password"
-									value={password}
-									onChange={onInputChange}
+									{...register('password')}
 									autoComplete="off"
 									id="password"
 									placeholder="••••••••"
 									className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
 								/>
+								<p>{errors.password?.message}</p>
 							</div>
 							<button
 								type="submit"

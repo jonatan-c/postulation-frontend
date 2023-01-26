@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useAppDispatch } from '@/hooks/redux';
-import { register } from '@/store/authentication/authenticationSlice';
+import { register as registerDispatch } from '@/store/authentication/authenticationSlice';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
-import React, { FormEvent, useState } from 'react';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { schema } from './schema.register';
 
 interface IFormRegister {
 	name: string;
@@ -9,29 +14,23 @@ interface IFormRegister {
 	password: string;
 }
 
-const initialState: IFormRegister = {
-	name: '',
-	email: '',
-	password: '',
-};
-
 export const Register = (): any => {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 
-	const [formValue, setFormValue] = useState(initialState);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<IFormRegister>({
+		resolver: yupResolver(schema),
+	});
 
-	const { name, password, email } = formValue;
-
-	const onInputChange = (e: any): any => {
-		setFormValue({
-			...formValue,
-			[e.target.name]: e.target.value,
-		});
-	};
-
-	const handleSubmit = (e: FormEvent<HTMLFormElement>): any => {
-		e.preventDefault();
-		dispatch(register(formValue));
+	const onSubmitHandler: SubmitHandler<IFormRegister> = (data: any): any => {
+		dispatch(registerDispatch(data));
+		router.push('/dashboard/home');
+		reset();
 	};
 
 	return (
@@ -43,7 +42,7 @@ export const Register = (): any => {
 							Create and account
 						</h1>
 						<form
-							onSubmit={handleSubmit}
+							onSubmit={handleSubmit(onSubmitHandler)}
 							className="space-y-4 md:space-y-6"
 							action="#"
 						>
@@ -56,13 +55,12 @@ export const Register = (): any => {
 								</label>
 								<input
 									type="text"
-									name="name"
-									value={name}
-									onChange={onInputChange}
+									{...register('name')}
 									id="name"
 									className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
 									placeholder="name"
 								/>
+								<p>{errors.name?.message}</p>
 							</div>
 							<div>
 								<label
@@ -73,13 +71,12 @@ export const Register = (): any => {
 								</label>
 								<input
 									type="email"
-									name="email"
-									value={email}
-									onChange={onInputChange}
+									{...register('email')}
 									id="email"
 									className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
 									placeholder="name@company.com"
 								/>
+								<p>{errors.email?.message}</p>
 							</div>
 							<div>
 								<label
@@ -90,14 +87,13 @@ export const Register = (): any => {
 								</label>
 								<input
 									type="password"
-									name="password"
-									value={password}
-									onChange={onInputChange}
+									{...register('password')}
 									autoComplete="off"
 									id="password"
 									placeholder="••••••••"
 									className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
 								/>
+								<p>{errors.password?.message}</p>
 							</div>
 
 							<button
