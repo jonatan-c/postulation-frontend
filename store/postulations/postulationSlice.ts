@@ -225,11 +225,22 @@ export const deleteImageToPostulation = (idImage: number): AppThunk => {
 		}
 
 		try {
-			const response = await clientAxios.delete<any>(
-				`/image-description/${idImage}`
-			);
-
-			dispatch(deleteIamge(idImage));
+			Swal.fire({
+				title: '¿Estas seguro?',
+				text: 'No podrás revertir esto!',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				cancelButtonText: 'Cancelar',
+				confirmButtonText: 'Si, eliminar!',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					clientAxios.delete<any>(`/image-description/${idImage}`);
+					dispatch(deleteIamge(idImage));
+					Swal.fire('Eliminado!', 'Tu archivo ha sido eliminado.', 'success');
+				}
+			});
 		} catch (error) {
 			console.log(error);
 		}

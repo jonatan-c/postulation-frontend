@@ -9,6 +9,7 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState, useEffect } from 'react';
+import ImageDescription from '../carrousel/ImageDescription';
 
 interface IFormPostulationCreate {
 	company: string;
@@ -91,17 +92,15 @@ export const FormPostulation = (): any => {
 
 	// ***************************** IMAGE ***************************** //
 
-	// const [selectedFile, setSelectedFile] = useState(null);
-
 	const { lastId } = useAppSelector((state) => state.postulation);
 
 	const onInputChangeImage = (e: any): any => {
 		const file = e.target.files[0];
 
 		const formdata = new FormData();
-		formdata.append('file', file, 'rn-6.png');
-		formdata.append('fileName', 'jonatan');
-		formdata.append('descriptionFile', 'hola');
+		formdata.append('file', file, file.name);
+		formdata.append('fileName', file.name);
+		formdata.append('descriptionFile', 'description');
 		console.log(formdata);
 
 		dispatch(createImageToPostulation(selected.id, formdata));
@@ -239,35 +238,63 @@ export const FormPostulation = (): any => {
 						type="submit"
 						className="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6"
 					>
-						{/* <Link 
-					href={"/dashboard/postulations"}
-					> */}
 						{selected.id ? 'Update Postulation' : 'Add Postulation'}
-						{/* </Link> */}
 					</button>
 				</form>
 			</div>
-			{/* <form onSubmit={handleSubmitImage}> */}
-			{/* <input
-          type="text"
-          name="fileName"
-          value={fileName}
-          onChange={onInputChangeImage}
-          id="fileName"
-        />
-        <input
-          type="text"
-          name="descriptionFile"
-          value={descriptionFile}
-          onChange={onInputChangeImage}
-          id="descriptionFile"
-        /> */}
 
-			<input type="file" className="" onChange={onInputChangeImage} />
+			{/* Carrousel con imagenes */}
+
+			{/* <div className="scroll-column-history flex h-[500px] w-full flex-col items-center justify-center overflow-y-scroll rounded  border border-black"> */}
+			{/* {selected?.images.map((image: any, index: number) => {
+							return (
+								<div key={image.id} className="m-3">
+									<button
+										onClick={() => {
+											deleteImageId(image.id);
+										}}
+										className="h-5 w-5 rounded-full bg-red-900 text-center text-sm font-normal leading-[21px] text-white md:text-base   "
+									>
+										x
+									</button>
+									<Image
+										src={image.fileUrl}
+										width={2000}
+										height={2000}
+										alt="image"
+										className="images"
+									/>
+								</div>
+							);
+						})} */}
+			{/* {selected.images.length === 0 ? <p>No images</p> : <ImageDescription />} */}
+			{/* </div> */}
+
+			<div className="m-4 pb-7">
+				<label
+					className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+					htmlFor="file_input"
+				>
+					Upload file
+				</label>
+				<input
+					className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
+					id="file_input"
+					type="file"
+					onChange={onInputChangeImage}
+				/>
+				<button
+					type="submit"
+					className="mr-2 mb-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+				>
+					Subir
+				</button>
+			</div>
+
+			{/* <input type="file" className="" onChange={onInputChangeImage} />
 			<button type="submit" className="bg-red-300 text-black">
 				Subir
-			</button>
-			{/* </form> */}
+			</button> */}
 		</section>
 	);
 };

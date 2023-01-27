@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import left from '../../public/icons/previous-outline-svgrepo-com.svg';
 import rigth from '../../public/icons/next-outline-svgrepo-com.svg';
+import { deleteImageToPostulation } from '@/store/postulations/postulationSlice';
 
 const ImageDescription = (): any => {
 	const { selected } = useAppSelector((state) => state.postulation);
+
+	const dispatch = useAppDispatch();
 
 	const router = useRouter();
 
@@ -39,9 +42,14 @@ const ImageDescription = (): any => {
 		setCurrentIndex(slideIndex);
 	};
 
+	const deleteImageId = (id: any): any => {
+		const position = slides[id].id;
+		dispatch(deleteImageToPostulation(position));
+	};
+
 	return (
 		<>
-			<div className="group relative m-auto h-[780px] w-full max-w-[1400px] py-16 px-4">
+			<div className="group relative m-auto h-[1200px] w-full max-w-[1400px] py-16 px-4">
 				{slides[currentIndex]?.fileUrl && (
 					<Image
 						src={slides[currentIndex]?.fileUrl}
@@ -51,10 +59,17 @@ const ImageDescription = (): any => {
 						className="h-full w-full rounded-2xl bg-cover bg-center duration-500"
 					/>
 				)}
-				{/* Top Botton Delete Image
-				<div className="absolute top-[10%] right-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full bg-black/20 p-2 text-2xl text-white group-hover:block">
-					<button onClick={prevSlide}>X</button>
-				</div> */}
+				{/* Top Botton Delete Image */}
+				<div className="absolute top-[40%]  right-5    -translate-x-0 translate-y-[-50%] cursor-pointer   p-2 text-2xl text-black group-hover:block">
+					<button
+						onClick={() => {
+							deleteImageId(currentIndex);
+						}}
+					>
+						XXXXXX
+					</button>
+				</div>
+
 				{/* Left Arrow */}
 				<div className="absolute top-[50%] left-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer   p-2 text-2xl text-white group-hover:block">
 					<button onClick={prevSlide}>
