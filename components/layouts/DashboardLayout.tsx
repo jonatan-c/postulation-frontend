@@ -16,12 +16,11 @@ export const DashboardLayout = ({ children }: Props): any => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div className="flex w-[100%] flex-row">
-					<div className="relative w-[30%] items-center justify-between rounded-lg bg-gray-800 p-4 text-white md:m-6 md:p-4 ">
-						{/* <h1>Postulation App</h1> */}
+				<div className="flex w-[100%] flex-row md:w-[100%]">
+					<div className=" hidden bg-gray-800 p-4  text-white md:p-4 lg:relative lg:m-6 lg:block lg:w-[30%] lg:items-center lg:justify-between lg:rounded-lg ">
 						<Sidebar />
 					</div>
-					<div className="  relative h-screen w-[70%] items-center justify-between rounded-lg bg-yellow-500 p-4 text-white md:m-6 md:p-4">
+					<div className=" w-full  bg-gray-800 p-4 text-white md:relative md:m-6 md:h-screen md:w-[70%] md:items-center md:justify-between md:rounded-lg md:p-4">
 						{children}
 					</div>
 				</div>

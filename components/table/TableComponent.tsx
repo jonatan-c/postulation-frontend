@@ -1,14 +1,13 @@
 import React from 'react';
-import { TableBody } from './TableBody';
-import { TableFilter } from './TableFilter';
+import { TableHeaderFilter } from './TableHeaderFilter';
+
 import { TableFooter } from './TableFooter';
-import { TableHead } from './TableHead';
+import { TableBody } from './TableBody';
 
 export const TableComponent = (): any => {
 	return (
 		<>
-			<TableFilter />
-			<TableHead />
+			<TableHeaderFilter />
 			<TableBody />
 			<TableFooter />
 		</>
