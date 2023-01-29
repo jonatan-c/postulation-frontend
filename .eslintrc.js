@@ -30,5 +30,6 @@ module.exports = {
 		'@typescript-eslint/no-unused-vars': 'warn',
 		'@typescript-eslint/strict-boolean-expressions': 'off',
 		'@typescript-eslint/no-floating-promises': 'off', // algo de promesas
+		// "@typescript-eslint/no-misused-promises": "error"
 	},
 };

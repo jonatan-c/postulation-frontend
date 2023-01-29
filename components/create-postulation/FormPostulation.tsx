@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import {
 	cleanSelectedPostulation,
@@ -6,10 +7,12 @@ import {
 	createPostulation,
 	editPostulation,
 } from '@/store/postulations/postulationSlice';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FormEvent, useState, useEffect } from 'react';
-import ImageDescription from '../carrousel/ImageDescription';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { schema } from './schema.create-postulation';
 
 interface IFormPostulationCreate {
 	company: string;
@@ -19,14 +22,6 @@ interface IFormPostulationCreate {
 	description?: string;
 }
 
-const initialState: IFormPostulationCreate = {
-	company: '',
-	dateSend: '',
-	feedback: false,
-	dateFeedback: '',
-	description: '',
-};
-
 export const FormPostulation = (): any => {
 	const { selected } = useAppSelector((state) => state.postulation);
 
@@ -34,60 +29,32 @@ export const FormPostulation = (): any => {
 
 	const router = useRouter();
 
-	const [formValue, setFormValue] = useState(initialState);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<Partial<IFormPostulationCreate>>({
+		resolver: yupResolver(schema),
+	});
 
-	const { company, dateFeedback, dateSend, feedback, description } = formValue;
-
-	const [value, setValue] = useState('');
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const onInputchangeDescription = (e: any): any => {
-		setFormValue({
-			...formValue,
-		});
-	};
-
-	const onInputChange = (e: any): any => {
-		setFormValue({
-			...formValue,
-			[e.target.name]: e.target.value,
-			feedback: e.target.checked,
-		});
-	};
-
-	useEffect(() => {
-		if (selected.id !== 0) {
-			setFormValue({
-				company: selected.company,
-				dateFeedback: selected.dateFeedback,
-				dateSend: selected.dateSend,
-				feedback: selected.feedback,
-				description: selected.description,
-			});
-		}
-	}, [selected]);
-
-	const onChangeCheckbox = (e: any): any => {
-		setFormValue({
-			...formValue,
-			feedback: e.target.checked,
-		});
-	};
-
-	const handleSubmit = (e: FormEvent<HTMLFormElement>): any => {
-		e.preventDefault();
-		console.log('formValue', formValue);
+	const onSubmitHandler: SubmitHandler<Partial<IFormPostulationCreate>> = (
+		data: any
+	): any => {
+		console.log('data', data);
 
 		if (selected.id !== 0) {
-			dispatch(editPostulation(selected.id, formValue));
+			dispatch(editPostulation(selected.id, data));
 			// router.push('/dashboard/postulations');
 			// dispatch(cleanSelectedPostulation())
 		} else {
-			dispatch(createPostulation(formValue));
+			dispatch(createPostulation(data));
 			router.push('/dashboard/postulations');
 			// dispatch(cleanSelectedPostulation())
 		}
-		dispatch(cleanSelectedPostulation());
+		// dispatch(cleanSelectedPostulation());
+		// router.push('/dashboard/home');
+		reset();
 	};
 
 	// ***************************** IMAGE ***************************** //
@@ -111,7 +78,7 @@ export const FormPostulation = (): any => {
 				<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
 					Add a new postulation
 				</h2>
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit(onSubmitHandler)}>
 					<div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
 						<div className="sm:col-span-2">
 							<label
@@ -123,13 +90,12 @@ export const FormPostulation = (): any => {
 							</label>
 							<input
 								type="text"
-								name="company"
-								value={company}
-								onChange={onInputChange}
+								{...register('company')}
 								id="company"
 								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 								placeholder="Name of Company"
 							/>
+							<p className="text-red-500">{errors.company?.message}</p>
 						</div>
 						<div>
 							<label
@@ -160,12 +126,11 @@ export const FormPostulation = (): any => {
 							</label>
 							<input
 								type="date"
-								name="dateSend"
-								value={dateSend}
-								onChange={onInputChange}
+								{...register('dateSend')}
 								id="date"
 								className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
+							<p className="text-red-500">{errors.dateSend?.message}</p>
 						</div>
 						<div className="w-full">
 							<label
@@ -176,9 +141,7 @@ export const FormPostulation = (): any => {
 							</label>
 							<input
 								type="date"
-								name="dateFeedback"
-								value={dateFeedback}
-								onChange={onInputChange}
+								{...register('dateFeedback')}
 								id="date"
 								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
@@ -192,13 +155,7 @@ export const FormPostulation = (): any => {
 							</label>
 							<input
 								type="checkbox"
-								name="feedback"
-								// value={feedback}
-								checked={feedback}
-								// onChange={onChangeCheckbox}
-								onChange={onInputChange}
-								// defaultChecked={false}
-
+								{...register('feedback')}
 								id="price"
 								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
@@ -215,27 +172,8 @@ export const FormPostulation = (): any => {
 								id="description"
 								className="block h-[200px] w-full justify-start rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 								placeholder="Your description here"
-								name="description"
-								value={description}
-								// defaultValue={description}
-								onChange={onInputChange}
+								{...register('description')}
 							/>
-							{/* <div className="add">
-								<div className="content"> */}
-							{/* <div className="editorContainer text-black">
-                      <ReactQuill
-                        className="editor"
-                        theme="snow"
-                        // name="description"
-                        // name="description"
-                        // value={description}
-                        // onChange={onInputChange}
-                        value={description}
-                        onChange={onInputchangeDescription}
-                      />
-                    </div> */}
-							{/* </div> */}
-							{/* </div> */}
 						</div>
 					</div>
 					<button
@@ -246,34 +184,7 @@ export const FormPostulation = (): any => {
 					</button>
 				</form>
 			</div>
-
-			{/* Carrousel con imagenes */}
-
-			{/* <div className="scroll-column-history flex h-[500px] w-full flex-col items-center justify-center overflow-y-scroll rounded  border border-black"> */}
-			{/* {selected?.images.map((image: any, index: number) => {
-							return (
-								<div key={image.id} className="m-3">
-									<button
-										onClick={() => {
-											deleteImageId(image.id);
-										}}
-										className="h-5 w-5 rounded-full bg-red-900 text-center text-sm font-normal leading-[21px] text-white md:text-base   "
-									>
-										x
-									</button>
-									<Image
-										src={image.fileUrl}
-										width={2000}
-										height={2000}
-										alt="image"
-										className="images"
-									/>
-								</div>
-							);
-						})} */}
-			{/* {selected.images.length === 0 ? <p>No images</p> : <ImageDescription />} */}
-			{/* </div> */}
-
+			{/* IMAGE */}
 			<div className="m-4 pb-7">
 				<label
 					className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -294,11 +205,6 @@ export const FormPostulation = (): any => {
 					Subir
 				</button>
 			</div>
-
-			{/* <input type="file" className="" onChange={onInputChangeImage} />
-			<button type="submit" className="bg-red-300 text-black">
-				Subir
-			</button> */}
 		</section>
 	);
 };
