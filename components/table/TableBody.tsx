@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-	getAllPostulations,
-	getPostulationById,
-} from '../../store/postulations/postulationSlice';
+import { getPostulationById } from '../../store/postulations/postulationSlice';
 import moment from 'moment';
 import ModalInfoPostulation from './ModalInfoPostulation';
 import Link from 'next/link';
@@ -18,23 +15,6 @@ export const TableBody = (): any => {
 		(state) => state.postulation
 	);
 
-	const [take, setTake] = useState(10);
-	const [page, setPage] = useState(1);
-
-	useEffect(() => {
-		dispatch(getAllPostulations(take, page));
-	}, [take, page]);
-
-	const handleNext = (): any => {
-		if (page === meta.pageCount) return;
-		setPage(page + 1);
-	};
-
-	const handlePrev = (): any => {
-		if (page === 1) return;
-		setPage(page - 1);
-	};
-
 	const handleGetIDPostulation = (id: number): any => {
 		dispatch(getPostulationById(id));
 	};
@@ -46,7 +26,7 @@ export const TableBody = (): any => {
 
 	return (
 		<>
-			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+			<div className="relative overflow-x-auto  ">
 				<table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
 					<thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
 						<tr className="bg-gray-300">

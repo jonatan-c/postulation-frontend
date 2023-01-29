@@ -149,8 +149,7 @@ export const createPostulation = (data: any): AppThunk => {
 				`/postulation`,
 				data
 			);
-
-			console.log(response.data);
+			// console.log(response);
 
 			dispatch(createPostulationState(response.data.postulationCreated));
 			Swal.fire({
@@ -208,7 +207,6 @@ export const createImageToPostulation = (
 					},
 				}
 			);
-			console.log(response.data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -261,8 +259,6 @@ export const editPostulation = (id: any, data: any): AppThunk => {
 				`/postulation/${id}`,
 				data
 			);
-
-			console.log(response.data);
 		} catch (error) {
 			console.log(error);
 		}

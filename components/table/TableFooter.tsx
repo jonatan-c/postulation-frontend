@@ -1,19 +1,12 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import {
-	getAllPostulations,
-	getPostulationById,
-} from '@/store/postulations/postulationSlice';
+import { getAllPostulations } from '@/store/postulations/postulationSlice';
 import React, { useEffect, useState } from 'react';
 
 export const TableFooter = (): any => {
-	const [openDeactivateModal, setOpenDeactivateModal] =
-		React.useState<boolean>(false);
-
 	const dispatch = useAppDispatch();
-	const { data: postulations, meta } = useAppSelector(
-		(state) => state.postulation
-	);
+	const { meta } = useAppSelector((state) => state.postulation);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [take, setTake] = useState(10);
 	const [page, setPage] = useState(1);
 
@@ -29,10 +22,6 @@ export const TableFooter = (): any => {
 	const handlePrev = (): any => {
 		if (page === 1) return;
 		setPage(page - 1);
-	};
-
-	const handleGetIDPostulation = (id: number): any => {
-		dispatch(getPostulationById(id));
 	};
 
 	return (
@@ -55,12 +44,12 @@ export const TableFooter = (): any => {
 				<div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
 					<div>
 						<p className="text-sm text-gray-700">
-							Showing
-							<span className="font-medium">{meta.page}</span>
-							page
-							<span className="font-medium">{meta.pageCount}</span>
+							Showing page
+							<span className="px-2 font-medium">{meta.page}</span>
 							of
-							<span className="font-medium">{meta.itemCount}</span>
+							<span className="px-2 font-medium">{meta.pageCount}</span>, Total
+							results
+							<span className="px-2 font-medium">{meta.itemCount}</span>
 							results
 						</p>
 					</div>

@@ -3,76 +3,7 @@ import React from 'react';
 export const TableHeaderFilter = (): any => {
 	return (
 		<>
-			<div className="flex items-center justify-between bg-white py-4 dark:bg-gray-800">
-				<div>
-					<button
-						id="dropdownActionButton"
-						data-dropdown-toggle="dropdownAction"
-						className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-						type="button"
-					>
-						<span className="sr-only">Action button</span>
-						Action
-						<svg
-							className="ml-2 h-3 w-3"
-							aria-hidden="true"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M19 9l-7 7-7-7"
-							></path>
-						</svg>
-					</button>
-					{/* <!-- Dropdown menu --> */}
-					<div
-						id="dropdownAction"
-						className="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
-					>
-						<ul
-							className="py-1 text-sm text-gray-700 dark:text-gray-200"
-							aria-labelledby="dropdownActionButton"
-						>
-							<li>
-								<a
-									href="#"
-									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>
-									Reward
-								</a>
-							</li>
-							<li>
-								<a
-									href="#"
-									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>
-									Promote
-								</a>
-							</li>
-							<li>
-								<a
-									href="#"
-									className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-								>
-									Activate account
-								</a>
-							</li>
-						</ul>
-						<div className="py-1">
-							<a
-								href="#"
-								className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
-							>
-								Delete User
-							</a>
-						</div>
-					</div>
-				</div>
+			<div className="flex items-center justify-between bg-white py-4 px-4 dark:bg-gray-800">
 				<label htmlFor="table-search" className="sr-only">
 					Search
 				</label>

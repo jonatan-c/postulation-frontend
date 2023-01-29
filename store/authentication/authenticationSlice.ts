@@ -78,9 +78,8 @@ export const register = (body: any): AppThunk => {
 	return async (dispatch) => {
 		try {
 			const response = await clientAxios.post('/user', body);
-			console.log(response);
 
-			if (response.data.status === 200) {
+			if (response.status === 201) {
 				Swal.fire({
 					position: 'center',
 					icon: 'success',
@@ -102,7 +101,7 @@ export const register = (body: any): AppThunk => {
 			Swal.fire({
 				position: 'top-end',
 				icon: 'error',
-				title: error.response.data.message,
+				title: error.response,
 				showConfirmButton: false,
 				timer: 3000,
 			});
@@ -115,7 +114,6 @@ export const login = (body: any): AppThunk => {
 	return async (dispatch) => {
 		try {
 			const response = await clientAxios.post<IResLogin>('/auth/login', body);
-			console.log(response);
 
 			Swal.fire({
 				position: 'center',

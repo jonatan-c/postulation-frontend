@@ -7,9 +7,12 @@ import { TableBody } from './TableBody';
 export const TableComponent = (): any => {
 	return (
 		<>
+			{/* <div className='border rounded-2xl'> */}
+
 			<TableHeaderFilter />
 			<TableBody />
 			<TableFooter />
+			{/* </div> */}
 		</>
 	);
 };

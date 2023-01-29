@@ -42,7 +42,6 @@ export const FormPostulation = (): any => {
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const onInputchangeDescription = (e: any): any => {
-		setValue(e);
 		setFormValue({
 			...formValue,
 		});
@@ -77,10 +76,11 @@ export const FormPostulation = (): any => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>): any => {
 		e.preventDefault();
+		console.log('formValue', formValue);
 
 		if (selected.id !== 0) {
 			dispatch(editPostulation(selected.id, formValue));
-			router.push('/dashboard/postulations');
+			// router.push('/dashboard/postulations');
 			// dispatch(cleanSelectedPostulation())
 		} else {
 			dispatch(createPostulation(formValue));
@@ -101,7 +101,6 @@ export const FormPostulation = (): any => {
 		formdata.append('file', file, file.name);
 		formdata.append('fileName', file.name);
 		formdata.append('descriptionFile', 'description');
-		console.log(formdata);
 
 		dispatch(createImageToPostulation(selected.id, formdata));
 	};
@@ -120,6 +119,7 @@ export const FormPostulation = (): any => {
 								className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 							>
 								Company
+								<span className="text-red-600"> *</span>
 							</label>
 							<input
 								type="text"
@@ -137,6 +137,7 @@ export const FormPostulation = (): any => {
 								className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 							>
 								Position
+								<span className="text-red-600"> *</span>
 							</label>
 							<select
 								id="category"
@@ -151,10 +152,11 @@ export const FormPostulation = (): any => {
 						</div>
 						<div className="w-full">
 							<label
-								htmlFor="brand"
+								htmlFor="date"
 								className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 							>
 								Date Send
+								<span className="text-red-600"> *</span>
 							</label>
 							<input
 								type="date"
@@ -162,7 +164,7 @@ export const FormPostulation = (): any => {
 								value={dateSend}
 								onChange={onInputChange}
 								id="date"
-								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+								className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
 						</div>
 						<div className="w-full">
@@ -195,6 +197,8 @@ export const FormPostulation = (): any => {
 								checked={feedback}
 								// onChange={onChangeCheckbox}
 								onChange={onInputChange}
+								// defaultChecked={false}
+
 								id="price"
 								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
