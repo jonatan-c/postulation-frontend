@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -10,15 +11,19 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { schema } from './schema.create-postulation';
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 
 interface IFormPostulationCreate {
 	company: string;
 	dateSend: string;
-	feedback: boolean;
-	dateFeedback: string;
+	feedback?: boolean;
+	dateFeedback?: string;
 	description?: string;
 }
 
@@ -38,6 +43,8 @@ export const FormPostulation = (): any => {
 		resolver: yupResolver(schema),
 	});
 
+	const [startDate, setStartDate] = useState<any>(null);
+
 	const onSubmitHandler: SubmitHandler<Partial<IFormPostulationCreate>> = (
 		data: any
 	): any => {
@@ -49,13 +56,25 @@ export const FormPostulation = (): any => {
 			// dispatch(cleanSelectedPostulation())
 		} else {
 			dispatch(createPostulation(data));
-			router.push('/dashboard/postulations');
+			// router.push('/dashboard/postulations');
 			// dispatch(cleanSelectedPostulation())
 		}
 		// dispatch(cleanSelectedPostulation());
 		// router.push('/dashboard/home');
 		reset();
 	};
+
+	useEffect(() => {
+		if (selected.id !== 0) {
+			reset({
+				company: selected.company,
+				dateSend: selected.dateSend,
+				feedback: selected.feedback,
+				dateFeedback: selected.dateFeedback,
+				description: selected.description,
+			});
+		}
+	}, [selected]);
 
 	// ***************************** IMAGE ***************************** //
 
@@ -115,8 +134,9 @@ export const FormPostulation = (): any => {
 								<option value="FullStack">FullStack</option>
 								<option value="PH">Phones</option>
 							</select>
+							{/* <p className="text-red-500">{errors.postion?.message}</p> */}
 						</div>
-						<div className="w-full">
+						<div className="input-container w-full ">
 							<label
 								htmlFor="date"
 								className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -132,7 +152,7 @@ export const FormPostulation = (): any => {
 							/>
 							<p className="text-red-500">{errors.dateSend?.message}</p>
 						</div>
-						<div className="w-full">
+						<div className="input-container w-full">
 							<label
 								htmlFor="brand"
 								className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -145,6 +165,7 @@ export const FormPostulation = (): any => {
 								id="date"
 								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
+							<p className="text-red-500">{errors.dateFeedback?.message}</p>
 						</div>
 						<div className="w-full">
 							<label
@@ -159,6 +180,7 @@ export const FormPostulation = (): any => {
 								id="price"
 								className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 							/>
+							<p className="text-red-500">{errors.feedback?.message}</p>
 						</div>
 
 						<div className="sm:col-span-2">
@@ -174,6 +196,7 @@ export const FormPostulation = (): any => {
 								placeholder="Your description here"
 								{...register('description')}
 							/>
+							<p className="text-red-500">{errors.description?.message}</p>
 						</div>
 					</div>
 					<button

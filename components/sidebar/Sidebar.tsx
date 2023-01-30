@@ -1,17 +1,27 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import Cookies from 'js-cookie';
 
 import { cleanSelectedPostulation } from '@/store/postulations/postulationSlice';
+import Image from 'next/image';
+import menu from '../../public/icons/menu.svg';
 
 export const Sidebar = (): any => {
 	const { user } = useAppSelector((state) => state.authentication);
 	const { selected } = useAppSelector((state) => state.postulation);
+
+	const [openMenuNavbar, setOpenMenuNavbar] = useState(true);
+
+	const onClickMenuNavbar = (): any => {
+		console.log('abriendo');
+
+		setOpenMenuNavbar(!openMenuNavbar);
+	};
 
 	const dispatch = useAppDispatch();
 
@@ -127,59 +137,78 @@ export const Sidebar = (): any => {
 
 	return (
 		<>
-			<h1 className="border-b-2 border-white pb-3 text-center text-2xl font-semibold">
-				Postulation App
-				<p>{user}</p>
-			</h1>
-
-			<ul className="mt-4">
-				{items.map((item) => (
-					<Link key={item.id} href={item.href}>
-						<li
-							className={`flex flex-row items-center rounded-lg p-2   ${activeByPage(
-								item.href
-							)}`}
-						>
-							<span className="material-icons mr-2">{item.icon}</span>
-							<p>{item.name}</p>
-							{item.status ? (
-								<span className="ml-3 inline-flex items-center justify-center rounded-full bg-green-200 px-2 text-sm font-medium text-green-800 dark:bg-gray-700 dark:text-gray-300">
-									Active
-								</span>
-							) : (
-								<span className="ml-3 inline-flex items-center justify-center rounded-full bg-red-200 px-2 text-sm font-medium text-red-800 dark:bg-gray-700 dark:text-gray-300">
-									Inactive
-								</span>
-							)}
-						</li>
-					</Link>
-				))}
-			</ul>
-
-			{/* LOGOUT */}
-
-			<button
-				onClick={logout}
-				className="absolute bottom-5 right-0 mt-4 flex w-full flex-row items-center rounded-lg p-2 hover:bg-gray-700 md:p-4 "
-			>
-				<span className="material-icons mr-2">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						strokeWidth="1.5"
-						stroke="currentColor"
-						className="h-6 w-6"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-						/>
-					</svg>
+			<div className="relative flex flex-row justify-between lg:block">
+				<h1 className="border-b-2 border-white pb-3 text-center text-2xl font-semibold">
+					Postulation App
+					<p>{user}</p>
+				</h1>
+				{/* className={`lg:mt-4  ${ openMenuNavbar } ? "hidden" : lg:block`} */}
+				<span
+					onClick={onClickMenuNavbar}
+					className="flex  cursor-pointer items-center text-center lg:hidden "
+				>
+					<Image
+						src={menu}
+						alt="Picture of the author"
+						width={30}
+						height={30}
+						className="fill-current stroke-white text-white"
+					/>
 				</span>
-				<p>Logout</p>
-			</button>
+				<ul
+					className={`lg:mt-4  ${
+						openMenuNavbar
+							? 'hidden  '
+							: 'absolute right-6 top-10 z-30 block rounded-lg bg-gray-800  '
+					}  lg:block  `}
+				>
+					{items.map((item) => (
+						<Link key={item.id} href={item.href}>
+							<li
+								className={`flex flex-row items-center rounded-lg p-2   ${activeByPage(
+									item.href
+								)}`}
+							>
+								<span className="material-icons mr-2">{item.icon}</span>
+								<p>{item.name}</p>
+								{item.status ? (
+									<span className="ml-3 inline-flex items-center justify-center rounded-full bg-green-200 px-2 text-sm font-medium text-green-800 dark:bg-gray-700 dark:text-gray-300">
+										Active
+									</span>
+								) : (
+									<span className="ml-3 inline-flex items-center justify-center rounded-full bg-red-200 px-2 text-sm font-medium text-red-800 dark:bg-gray-700 dark:text-gray-300">
+										Inactive
+									</span>
+								)}
+							</li>
+						</Link>
+					))}
+					{/* LOGOUT */}
+
+					<button
+						onClick={logout}
+						className="  mt-4 flex w-full flex-row items-center rounded-lg p-2 hover:bg-gray-700 md:p-4 "
+					>
+						<span className="material-icons mr-2">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="h-6 w-6"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+								/>
+							</svg>
+						</span>
+						<p>Logout</p>
+					</button>
+				</ul>
+			</div>
 		</>
 	);
 };

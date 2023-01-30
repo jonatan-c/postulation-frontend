@@ -48,9 +48,8 @@ export const TableFooter = (): any => {
 							<span className="px-2 font-medium">{meta.page}</span>
 							of
 							<span className="px-2 font-medium">{meta.pageCount}</span>, Total
-							results
+							results :
 							<span className="px-2 font-medium">{meta.itemCount}</span>
-							results
 						</p>
 					</div>
 					<div>

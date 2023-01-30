@@ -149,7 +149,7 @@ export const createPostulation = (data: any): AppThunk => {
 				`/postulation`,
 				data
 			);
-			// console.log(response);
+			console.log(response);
 
 			dispatch(createPostulationState(response.data.postulationCreated));
 			Swal.fire({

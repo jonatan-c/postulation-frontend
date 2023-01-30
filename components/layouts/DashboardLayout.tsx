@@ -16,11 +16,11 @@ export const DashboardLayout = ({ children }: Props): any => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div className="flex w-[100%] flex-row md:w-[100%]">
-					<div className=" hidden bg-gray-800 p-4  text-white md:p-4 lg:relative lg:m-6 lg:block lg:w-[30%] lg:items-center lg:justify-between lg:rounded-lg ">
+				<div className="flex w-[100%] flex-col md:w-[100%] lg:h-[100vh] lg:flex-row">
+					<div className="  block  bg-gray-800 p-4  text-white md:p-4 lg:relative lg:m-6 lg:block lg:w-[30%] lg:items-center lg:justify-between lg:rounded-lg ">
 						<Sidebar />
 					</div>
-					<div className=" w-full  bg-gray-800 p-4 text-white md:relative md:m-6 md:h-screen md:w-[70%] md:items-center md:justify-between md:rounded-lg md:p-4">
+					<div className="block  bg-gray-800 p-4  text-white md:p-4 lg:relative lg:m-6 lg:block lg:w-[70%] lg:items-center lg:justify-between lg:rounded-lg">
 						{children}
 					</div>
 				</div>
