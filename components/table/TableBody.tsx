@@ -26,7 +26,7 @@ export const TableBody = (): any => {
 
 	return (
 		<>
-			<div className="relative overflow-x-auto  ">
+			<div className="scroll-custom relative  overflow-x-auto">
 				<table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
 					<thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
 						<tr className="bg-gray-300">

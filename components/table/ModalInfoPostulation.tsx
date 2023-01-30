@@ -38,7 +38,7 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 					zIndex: 100,
 				}}
 				id="invite"
-				className="top-[calc((100vh-900px)/2)] left-[calc((100vw-1000px)/2)]   z-20 flex    h-[900px] w-[1000px] flex-col rounded-[10px] border    border-gray-300   bg-white text-black "
+				className="top-[calc((100vh-80vh)/2)] left-[calc((100vw-80vw)/2)]   z-20 flex    h-[80vh] w-[80vw] flex-col rounded-[10px] border    border-gray-300   bg-white text-black "
 			>
 				{/* HEADER */}
 				<div className="border-neutro-300 flex h-[35px] w-full  flex-row content-center items-center  justify-between border-b  py-[25px] px-[19px]">
@@ -53,7 +53,7 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 					></div>
 				</div>
 				{/* BODY */}
-				<div className="flex h-full  w-full        p-[10px] md:flex md:flex-col md:p-5 md:pb-0  ">
+				<div className="flex h-full  w-full   flex-col p-5 pb-0  ">
 					<p className="text-sm font-normal leading-[21px] md:text-base ">
 						Position: Frontend
 					</p>
@@ -66,7 +66,7 @@ const ModalInfoPostulation = ({ setOpenDeactivateModal }: any): JSX.Element => {
 						{selected.feedback}
 					</p>
 					Images descriptions:
-					<div className="scroll-column-history flex h-[500px] w-full flex-col items-center justify-center overflow-y-scroll rounded  border border-black">
+					<div className="scroll-custom flex h-[25%] w-full flex-col items-center justify-center overflow-y-scroll rounded border  border-black lg:h-[500px]">
 						{/* {selected?.images.map((image: any, index: number) => {
 							return (
 								<div key={image.id} className="m-3">
