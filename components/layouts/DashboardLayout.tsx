@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import Head from 'next/head';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import { Sidebar } from '../sidebar/Sidebar';
 
 interface Props {
@@ -7,6 +9,10 @@ interface Props {
 }
 
 export const DashboardLayout = ({ children }: Props): any => {
+	const router = useRouter();
+
+	const routePath = router.pathname.split('/').pop();
+
 	return (
 		<>
 			<Head>
@@ -20,7 +26,11 @@ export const DashboardLayout = ({ children }: Props): any => {
 					<div className="fixed z-30 block  w-[100%] bg-gray-800  p-4 text-white  md:p-4 lg:relative lg:z-0 lg:m-6 lg:block lg:w-[30%] lg:items-center lg:justify-between lg:rounded-lg ">
 						<Sidebar />
 					</div>
-					<div className="block h-fit  bg-gray-800 p-4    pt-32 text-white  md:p-4 lg:relative lg:m-6 lg:block lg:h-[calc((100vh-48px))] lg:w-[70%] lg:items-center lg:justify-between lg:rounded-lg">
+					<div
+						className={`block ${
+							routePath === 'create-postulation' ? 'h-fit' : 'h-full'
+						}   bg-gray-800 p-4    pt-32 text-white  md:p-4 lg:relative lg:m-6 lg:block lg:h-[calc((100vh-48px))] lg:w-[70%] lg:items-center lg:justify-between lg:rounded-lg`}
+					>
 						{children}
 					</div>
 				</div>

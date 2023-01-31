@@ -66,20 +66,20 @@ const ImageDescription = (): any => {
 							deleteImageId(currentIndex);
 						}}
 					>
-						XXXXXX
+						X
 					</button>
 				</div>
 
 				{/* Left Arrow */}
-				<div className="absolute top-[50%] left-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer   p-2 text-2xl text-white group-hover:block">
+				<div className="absolute top-[50%] left-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer   p-1 text-2xl text-white group-hover:block">
 					<button onClick={prevSlide}>
-						<Image src={left} alt="left" width={60} height={60} />
+						<Image src={left} alt="left" width={40} height={40} />
 					</button>
 				</div>
 				{/* Right Arrow */}
-				<div className="absolute top-[50%] right-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer     p-2 text-2xl text-white group-hover:block">
+				<div className="absolute top-[50%] right-5 hidden -translate-x-0 translate-y-[-50%] cursor-pointer     p-1 text-2xl text-white group-hover:block">
 					<button onClick={nextSlide}>
-						<Image src={rigth} alt="rigth" width={60} height={60} />
+						<Image src={rigth} alt="rigth" width={40} height={40} />
 					</button>
 				</div>
 				<div className="top-4 flex justify-center py-2">

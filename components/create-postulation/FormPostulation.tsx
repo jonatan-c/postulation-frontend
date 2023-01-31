@@ -3,21 +3,15 @@
 
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import {
-	cleanSelectedPostulation,
 	createImageToPostulation,
 	createPostulation,
 	editPostulation,
 } from '@/store/postulations/postulationSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { schema } from './schema.create-postulation';
-
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
 
 interface IFormPostulationCreate {
 	company: string;
@@ -43,8 +37,6 @@ export const FormPostulation = (): any => {
 		resolver: yupResolver(schema),
 	});
 
-	const [startDate, setStartDate] = useState<any>(null);
-
 	const onSubmitHandler: SubmitHandler<Partial<IFormPostulationCreate>> = (
 		data: any
 	): any => {
@@ -52,15 +44,13 @@ export const FormPostulation = (): any => {
 
 		if (selected.id !== 0) {
 			dispatch(editPostulation(selected.id, data));
-			// router.push('/dashboard/postulations');
+			router.push('/dashboard/postulations');
 			// dispatch(cleanSelectedPostulation())
 		} else {
 			dispatch(createPostulation(data));
-			// router.push('/dashboard/postulations');
+			router.push('/dashboard/postulations');
 			// dispatch(cleanSelectedPostulation())
 		}
-		// dispatch(cleanSelectedPostulation());
-		// router.push('/dashboard/home');
 		reset();
 	};
 
@@ -78,8 +68,6 @@ export const FormPostulation = (): any => {
 
 	// ***************************** IMAGE ***************************** //
 
-	const { lastId } = useAppSelector((state) => state.postulation);
-
 	const onInputChangeImage = (e: any): any => {
 		const file = e.target.files[0];
 
@@ -92,7 +80,7 @@ export const FormPostulation = (): any => {
 	};
 
 	return (
-		<section className="bg-white dark:bg-gray-900 ">
+		<section className="bg-white dark:bg-gray-900 lg:h-[92vh]">
 			<div className="mx-auto max-w-2xl py-8 px-4 lg:py-16">
 				<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
 					Add a new postulation
@@ -208,12 +196,16 @@ export const FormPostulation = (): any => {
 				</form>
 			</div>
 			{/* IMAGE */}
-			<div className="m-4 pb-7">
+			<div className=" mx-auto    max-w-2xl    px-4 pb-8  lg:pb-8 ">
 				<label
 					className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 					htmlFor="file_input"
 				>
 					Upload file
+					<p className="text-red-700">
+						* to upload images, first you need create and postulation and select
+						edit
+					</p>
 				</label>
 				<input
 					className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
@@ -221,12 +213,6 @@ export const FormPostulation = (): any => {
 					type="file"
 					onChange={onInputChangeImage}
 				/>
-				<button
-					type="submit"
-					className="mr-2 mb-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-				>
-					Subir
-				</button>
 			</div>
 		</section>
 	);

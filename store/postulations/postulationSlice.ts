@@ -259,6 +259,13 @@ export const editPostulation = (id: any, data: any): AppThunk => {
 				`/postulation/${id}`,
 				data
 			);
+
+			Swal.fire({
+				icon: 'success',
+				title: 'Postulación editada',
+				showConfirmButton: false,
+				timer: 1500,
+			});
 		} catch (error) {
 			console.log(error);
 		}
