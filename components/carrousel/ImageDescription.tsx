@@ -57,6 +57,7 @@ const ImageDescription = (): any => {
 						width={1400}
 						height={780}
 						className="h-full w-full rounded-2xl bg-cover bg-center duration-500"
+						quality={100}
 					/>
 				)}
 				{/* Top Botton Delete Image */}
