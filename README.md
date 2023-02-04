@@ -1,10 +1,12 @@
 ## Application to save yours portulations
 
 ## Description
+
 This is a simple application to save yours portulations, you can add, edit and delete portulations.
 
 ## Technologies
-- Next 
+
+- Next
 - React
 - Typescript
 - Redux Toolkit
@@ -19,6 +21,7 @@ This is a simple application to save yours portulations, you can add, edit and d
 - i18
 
 ## Instaling and ejecuting
+
 ```
 yarn install
 yarn run dev
