@@ -4,7 +4,7 @@
 
 This is a simple application to save yours portulations, you can add, edit and delete portulations.
 
-## Technologies
+## Technologiesss
 
 - Next
 - React
